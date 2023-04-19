@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, View, Text} from 'react-native';
+import {FlatList, View, Text} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../../reducers';
@@ -8,7 +8,7 @@ import styles from './styles';
 import {redColor} from '../../constants';
 import {fetchCart} from '../../reducers/cart/cartSlice';
 
-const MainScreen = () => {
+const MainScreen = (): JSX.Element => {
   const flatlistRef = useRef<FlatList>(null);
   const dispatch = useDispatch<AppDispatch>();
 

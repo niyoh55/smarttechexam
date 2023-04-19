@@ -1,7 +1,7 @@
 import {FlatList, View, Text, Modal, Pressable} from 'react-native';
 import React, {useMemo, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../../reducers';
+import {AppDispatch, RootState} from '../../reducers';
 import ListItem from './components/ListItem';
 import {Button, Icon} from '@rneui/themed';
 import {clearCart} from '../../reducers/cart/cartSlice';
@@ -12,10 +12,10 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {redColor} from '../../constants';
 import styles from './styles';
 
-const CartScreen = () => {
+const CartScreen = (): JSX.Element => {
   const [modalVisible, setModalVisible] = useState(false);
   const {cart} = useSelector((state: RootState) => state.cart);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const totalAmount: number = useMemo(() => {

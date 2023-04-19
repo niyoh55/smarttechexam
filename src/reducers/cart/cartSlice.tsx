@@ -106,13 +106,10 @@ export const removeItemFromCart = createAsyncThunk<
 
   return updatedCart;
 });
-export const clearCart = createAsyncThunk(
-  'cart/clearCart',
-  async (userId: number, thunkAPI) => {
-    await storeData('CART', []);
-    return [];
-  },
-);
+export const clearCart = createAsyncThunk('cart/clearCart', async () => {
+  await storeData('CART', []);
+  return [];
+});
 
 const initialState: CartState = {
   cart: [],

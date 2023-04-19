@@ -16,7 +16,7 @@ interface ListItemProps {
   item: Product;
 }
 
-const ListItem = ({item}: ListItemProps) => {
+const ListItem = ({item}: ListItemProps): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
   const [quantity, setQuantity] = useState(1);
 

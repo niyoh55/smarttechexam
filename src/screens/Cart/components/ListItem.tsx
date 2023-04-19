@@ -1,6 +1,6 @@
 import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {Button, Icon, Image} from '@rneui/themed';
+import {Button, Image} from '@rneui/themed';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './ListItemStyle';
 import {useDispatch} from 'react-redux';
@@ -17,7 +17,7 @@ interface ListItemProps {
   item: CartProduct;
 }
 
-const ListItem = ({item}: ListItemProps) => {
+const ListItem = ({item}: ListItemProps): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleAdd = () => {
