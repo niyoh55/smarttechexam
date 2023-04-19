@@ -5,17 +5,19 @@ import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {capitalizeFirstLetter} from '../../../utils';
 import styles from './ListItemStyle';
 import {useDispatch} from 'react-redux';
-import {addToCart} from '../../../reducers/cart/cartSlice';
+
 import {Product} from '../../../reducers/products/productsSlice';
 import Toast from 'react-native-toast-message';
 import {redColor} from '../../../constants';
+import {addToCart} from '../../../reducers/cart/cartSlice';
+import {AppDispatch} from '../../../reducers';
 
 interface ListItemProps {
   item: Product;
 }
 
 const ListItem = ({item}: ListItemProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [quantity, setQuantity] = useState(1);
 
   const handleAdd = () => {

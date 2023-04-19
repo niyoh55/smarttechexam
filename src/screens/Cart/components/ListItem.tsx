@@ -11,23 +11,24 @@ import {
 } from '../../../reducers/cart/cartSlice';
 import {CartProduct} from '../../../reducers/cart/types';
 import Toast from 'react-native-toast-message';
+import {AppDispatch} from '../../../reducers';
 
 interface ListItemProps {
   item: CartProduct;
 }
 
 const ListItem = ({item}: ListItemProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleAdd = () => {
-    dispatch(increaseQuantity(item));
+    dispatch(increaseQuantity({product: item}));
   };
   const handleMinus = () => {
-    dispatch(decreaseQuantity(item));
+    dispatch(decreaseQuantity({product: item}));
   };
 
   const handleRemoveButton = () => {
-    dispatch(removeItemFromCart(item));
+    dispatch(removeItemFromCart({product: item}));
     Toast.show({
       type: 'success',
       text1: 'Cart Updated.',

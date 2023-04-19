@@ -1,14 +1,16 @@
 import {FlatList, StyleSheet, View, Text} from 'react-native';
 import React, {useEffect, useRef} from 'react';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../reducers';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '../../reducers';
 import ListItem from './components/ListItem';
 import {EmojiSad} from 'iconsax-react-native';
 import styles from './styles';
 import {redColor} from '../../constants';
+import {fetchCart} from '../../reducers/cart/cartSlice';
 
 const MainScreen = () => {
   const flatlistRef = useRef<FlatList>(null);
+  const dispatch = useDispatch<AppDispatch>();
 
   const {products, filteredProducts, isFilteringByCategory, isSearching} =
     useSelector((state: RootState) => state.products);
@@ -22,6 +24,10 @@ const MainScreen = () => {
       flatlistRef.current?.scrollToIndex({index: 0, viewPosition: 0});
     }
   }, [filteredProducts, isFilteringByCategory]);
+
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, []);
 
   return (
     <View style={styles.container}>

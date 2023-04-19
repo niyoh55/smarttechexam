@@ -22,6 +22,10 @@ export interface CartPayload {
   quantity: number;
 }
 
+export interface CartOnlyPayload {
+  product: Product;
+}
+
 export interface CartState {
   cart: Array<CartProduct>;
   totalAmount: number;
