@@ -1,12 +1,4 @@
-import {
-  FlatList,
-  StyleSheet,
-  View,
-  Text,
-  Modal,
-  Pressable,
-  Alert,
-} from 'react-native';
+import {FlatList, View, Text, Modal, Pressable} from 'react-native';
 import React, {useMemo, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../reducers';
@@ -17,6 +9,8 @@ import Toast from 'react-native-toast-message';
 import {Happyemoji, Bag} from 'iconsax-react-native';
 import {useNavigation, ParamListBase} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {redColor} from '../../constants';
+import styles from './styles';
 
 const CartScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -71,7 +65,7 @@ const CartScreen = () => {
         onRequestClose={modalCloseHandler}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Happyemoji size="100" color="#FF5757" />
+            <Happyemoji size="100" color={redColor} />
             <Text style={styles.modalText}>Order Placed!</Text>
             <Text style={styles.modalSubText}>
               Your order was placed successfully. Thank you for shopping.
@@ -87,12 +81,7 @@ const CartScreen = () => {
       <View style={{paddingHorizontal: 10, width: '100%', flex: 1}}>
         <FlatList
           data={cart}
-          contentContainerStyle={{
-            flexGrow: 1,
-            justifyContent: 'center',
-            paddingVertical: 30,
-            width: '100%',
-          }}
+          contentContainerStyle={styles.flatListContentContainer}
           numColumns={1}
           keyExtractor={data => data.id}
           showsHorizontalScrollIndicator={false}
@@ -103,22 +92,15 @@ const CartScreen = () => {
           ListEmptyComponent={() => (
             <View
               style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-              <Bag size="100" color="#FF5757" />
-              <Text style={{color: '#FF5757', fontSize: 32}}>
+              <Bag size="100" color={redColor} />
+              <Text style={{color: redColor, fontSize: 32}}>
                 Cart is currently empty.
               </Text>
             </View>
           )}
         />
       </View>
-      <View
-        style={{
-          backgroundColor: 'white',
-          height: 120,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignSelf: 'stretch',
-        }}>
+      <View style={styles.bottomContainer}>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Button
             onPress={handleClearCart}
@@ -132,13 +114,7 @@ const CartScreen = () => {
             }
             title="Clear Cart"
             titleStyle={{fontSize: 14, marginLeft: 5, color: 'black'}}
-            buttonStyle={{
-              justifyContent: 'center',
-              alignContent: 'center',
-              backgroundColor: 'transparent',
-              borderRadius: 5,
-              marginLeft: 15,
-            }}
+            buttonStyle={styles.clearCartBtn}
           />
         </View>
         <View
@@ -164,12 +140,7 @@ const CartScreen = () => {
               disabled={cart.length === 0}
               title="Checkout"
               titleStyle={{fontSize: 14}}
-              buttonStyle={{
-                justifyContent: 'center',
-                alignSelf: 'stretch',
-                backgroundColor: '#FF5757',
-                borderRadius: 5,
-              }}
+              buttonStyle={styles.checkOutBtn}
             />
           </View>
         </View>
@@ -179,58 +150,3 @@ const CartScreen = () => {
 };
 
 export default CartScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#EDF6FF',
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonClose: {
-    marginTop: 20,
-    backgroundColor: '#FF5757',
-    alignSelf: 'stretch',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginVertical: 15,
-    textAlign: 'center',
-    fontSize: 24,
-  },
-  modalSubText: {
-    textAlign: 'center',
-    fontSize: 16,
-  },
-});

@@ -8,3 +8,5 @@ export const categories = [
   'Furniture',
   'Toys',
 ];
+
+export const redColor = '#FF5757';

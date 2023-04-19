@@ -8,6 +8,7 @@ import {useDispatch} from 'react-redux';
 import {addToCart} from '../../../reducers/cart/cartSlice';
 import {Product} from '../../../reducers/products/productsSlice';
 import Toast from 'react-native-toast-message';
+import {redColor} from '../../../constants';
 
 interface ListItemProps {
   item: Product;
@@ -39,48 +40,23 @@ const ListItem = ({item}: ListItemProps) => {
     });
   };
   return (
-    <View
-      style={{
-        backgroundColor: '#ffffff',
-        width: '49%',
-        alignItems: 'center',
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 8,
-        },
-        shadowOpacity: 0.44,
-        shadowRadius: 10.32,
-        elevation: 16,
-      }}>
+    <View style={styles.container}>
       <Image
         source={{uri: item.imageUrl}}
         containerStyle={styles.item}
         PlaceholderContent={
-          <View
-            style={
-              (styles.item, {justifyContent: 'center', alignItems: 'center'})
-            }>
+          <View style={(styles.item, styles.activityIndicator)}>
             <ActivityIndicator />
           </View>
         }
       />
-      <Text style={{fontSize: 16, fontWeight: '700'}} numberOfLines={1}>
+      <Text style={styles.productName} numberOfLines={1}>
         {item.productName}
       </Text>
       <View style={{alignSelf: 'flex-start'}}>
-        <Text
-          style={{
-            fontSize: 12,
-            marginTop: 10,
-            fontWeight: 'bold',
-            textAlign: 'left',
-          }}
-          numberOfLines={1}>
+        <Text style={styles.category} numberOfLines={1}>
           Category:{' '}
-          <Text style={{color: '#FF5757'}}>
+          <Text style={{color: redColor}}>
             {capitalizeFirstLetter(item.category)}
           </Text>
         </Text>
@@ -90,40 +66,14 @@ const ListItem = ({item}: ListItemProps) => {
       </Text>
       <View
         style={{alignSelf: 'flex-start', marginTop: 10, paddingHorizontal: 5}}>
-        <Text
-          style={{
-            fontSize: 20,
-            textAlign: 'left',
-            color: '#FF5757',
-            fontWeight: 'bold',
-          }}
-          numberOfLines={1}>
+        <Text style={styles.unitPrice} numberOfLines={1}>
           {'\u20B1' + item.unitPrice.toFixed(2)}
         </Text>
       </View>
 
-      <View
-        style={{
-          flexDirection: 'row',
-          alignSelf: 'stretch',
-          flex: 1,
-          justifyContent: 'space-between',
-          marginTop: 10,
-          paddingHorizontal: 2,
-          paddingBottom: 10,
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <TouchableOpacity
-            onPress={handleMinus}
-            style={{
-              justifyContent: 'center',
-              alignContent: 'center',
-            }}>
+      <View style={styles.buttonsContainer}>
+        <View style={styles.addAndMinusBtnsContainer}>
+          <TouchableOpacity onPress={handleMinus} style={styles.minusBtn}>
             <MaterialIcon
               name="minus-circle"
               size={20}
@@ -133,12 +83,7 @@ const ListItem = ({item}: ListItemProps) => {
           <View style={{marginHorizontal: 3}}>
             <Text style={{fontSize: 14}}>{quantity}</Text>
           </View>
-          <TouchableOpacity
-            onPress={handleAdd}
-            style={{
-              justifyContent: 'center',
-              alignContent: 'center',
-            }}>
+          <TouchableOpacity onPress={handleAdd} style={styles.minusBtn}>
             <MaterialIcon
               name="plus-circle"
               size={20}
@@ -158,13 +103,7 @@ const ListItem = ({item}: ListItemProps) => {
           }
           title="Add"
           titleStyle={{fontSize: 14, marginLeft: 5}}
-          buttonStyle={{
-            justifyContent: 'center',
-            alignContent: 'center',
-            backgroundColor: '#FF5757',
-            borderRadius: 5,
-            marginLeft: 15,
-          }}
+          buttonStyle={styles.addToCartBtn}
         />
       </View>
     </View>

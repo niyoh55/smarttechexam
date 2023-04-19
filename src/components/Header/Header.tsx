@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,7 +7,6 @@ import {
   TextInput,
 } from 'react-native';
 import {Badge, Header as RNHeader} from '@rneui/themed';
-import Fa5Icon from 'react-native-vector-icons/FontAwesome5';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   searchProduct,
@@ -16,8 +15,13 @@ import {
 import {useNavigation, ParamListBase, useRoute} from '@react-navigation/native';
 import {RootState} from '../../reducers';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Back} from 'iconsax-react-native';
-import {SearchNormal1, ShoppingCart, HambergerMenu} from 'iconsax-react-native';
+import {
+  SearchNormal1,
+  ShoppingCart,
+  HambergerMenu,
+  Back,
+} from 'iconsax-react-native';
+import {redColor} from '../../constants';
 
 interface HeaderProps {
   headerTitle: string;
@@ -49,8 +53,17 @@ const Header = ({
     dispatch(toggleSearch());
   };
 
+  const totalItems: number = useMemo(() => {
+    let items: number = 0;
+    cart.forEach(item => {
+      items += Number(item.quantity);
+    });
+
+    return items;
+  }, [cart]);
+
   return (
-    <RNHeader 
+    <RNHeader
       leftComponent={
         !isCartScreen ? (
           <View style={styles.headerRight}>
@@ -75,7 +88,7 @@ const Header = ({
               onPress={() => navigation.navigate('Cart')}>
               <ShoppingCart color="#EDF6FF" size={24} />
               <Badge
-                value={String(cart.length)}
+                value={String(totalItems > 99 ? '99+' : totalItems)}
                 status="error"
                 containerStyle={{position: 'absolute', top: -10, right: -12}}
               />
@@ -107,7 +120,7 @@ const Header = ({
           </Text>
         )
       }
-      backgroundColor={'#FF5757'}
+      backgroundColor={redColor}
       barStyle="default"
     />
   );

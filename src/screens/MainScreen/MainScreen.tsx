@@ -4,6 +4,8 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../reducers';
 import ListItem from './components/ListItem';
 import {EmojiSad} from 'iconsax-react-native';
+import styles from './styles';
+import {redColor} from '../../constants';
 
 const MainScreen = () => {
   const flatlistRef = useRef<FlatList>(null);
@@ -23,19 +25,14 @@ const MainScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={{flex: 1, paddingHorizontal: 10, width: '100%'}}>
+      <View style={styles.flatListContainer}>
         <FlatList
           ref={flatlistRef}
           columnWrapperStyle={{justifyContent: 'space-between'}}
           data={
             isFilteringByCategory || isSearching ? filteredProducts : products
           }
-          contentContainerStyle={{
-            flexGrow: 1,
-            justifyContent: 'center',
-            paddingVertical: 30,
-            width: '100%',
-          }}
+          contentContainerStyle={styles.flatListContentContainer}
           numColumns={2}
           keyExtractor={data => data.id}
           showsHorizontalScrollIndicator={false}
@@ -46,8 +43,8 @@ const MainScreen = () => {
           ListEmptyComponent={() => (
             <View
               style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-              <EmojiSad size="100" color="#FF5757" />
-              <Text style={{color: '#FF5757', fontSize: 32}}>
+              <EmojiSad size="100" color={redColor} />
+              <Text style={{color: redColor, fontSize: 32}}>
                 No Results Found.
               </Text>
             </View>
@@ -59,13 +56,3 @@ const MainScreen = () => {
 };
 
 export default MainScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#EDF6FF',
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

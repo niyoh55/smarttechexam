@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {redColor} from '../../../constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     textAlign: 'left',
-    color: '#FF5757',
+    color: redColor,
   },
   buttonsContainer: {
     flexDirection: 'row',
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
   removeBtn: {
     justifyContent: 'center',
     alignContent: 'center',
-    backgroundColor: '#FF5757',
+    backgroundColor: redColor,
     borderRadius: 5,
     marginLeft: 15,
   },

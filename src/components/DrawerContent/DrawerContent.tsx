@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {categories} from '../../constants';
+import {categories, redColor} from '../../constants';
 import {Divider} from '@rneui/themed';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     padding: 16,
-    backgroundColor: '#FF5757',
+    backgroundColor: redColor,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
