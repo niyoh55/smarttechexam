@@ -1,36 +1,114 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Header as RNHeader} from '@rneui/themed';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInput,
+} from 'react-native';
+import {Badge, Header as RNHeader} from '@rneui/themed';
+import Fa5Icon from 'react-native-vector-icons/FontAwesome5';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  searchProduct,
+  toggleSearch,
+} from '../../reducers/products/productsSlice';
+import {useNavigation, ParamListBase, useRoute} from '@react-navigation/native';
+import {RootState} from '../../reducers';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Back} from 'iconsax-react-native';
+import {SearchNormal1, ShoppingCart, HambergerMenu} from 'iconsax-react-native';
 
-const Header = () => {
+interface HeaderProps {
+  headerTitle: string;
+  leftComponentOnPress: () => void;
+  filterOnPress: () => void;
+}
+
+const Header = ({
+  headerTitle,
+  leftComponentOnPress,
+  filterOnPress,
+}: HeaderProps) => {
+  const dispatch = useDispatch();
+  const route = useRoute();
+
+  const isCartScreen = route.name === 'Cart';
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
+  const {searchKeyWord, isSearching, filter, isFilteringByCategory} =
+    useSelector((state: RootState) => state.products);
+
+  const {cart} = useSelector((state: RootState) => state.cart);
+
+  const onChangeInput = (text: string) => {
+    dispatch(searchProduct(text));
+  };
+
+  const searchHandler = () => {
+    dispatch(toggleSearch());
+  };
+
   return (
-    <RNHeader
+    <RNHeader 
       leftComponent={
-        <View style={styles.headerRight}>
-          <TouchableOpacity onPress={() => console.log('hello')}>
-            <Icon name="bars" color="red" />
+        !isCartScreen ? (
+          <View style={styles.headerRight}>
+            <TouchableOpacity onPress={leftComponentOnPress}>
+              <HambergerMenu color="#EDF6FF" size={24} />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Back size="24" color="white" />
           </TouchableOpacity>
-          <TouchableOpacity
-            style={{marginLeft: 10}}
-            onPress={() => console.log('hello')}>
-            <Icon type="antdesign" name="rocket1" color="red" />
-          </TouchableOpacity>
-        </View>
+        )
       }
       rightComponent={
-        <View style={styles.headerRight}>
-          <TouchableOpacity onPress={() => console.log('hello')}>
-            <Icon name="description" color="red" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{marginLeft: 10}}
-            onPress={() => console.log('hello')}>
-            <Icon type="antdesign" name="rocket1" color="red" />
-          </TouchableOpacity>
-        </View>
+        !isCartScreen ? (
+          <View style={styles.headerRight}>
+            <TouchableOpacity onPress={searchHandler}>
+              <SearchNormal1 color="#EDF6FF" size={24} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{marginLeft: 10}}
+              onPress={() => navigation.navigate('Cart')}>
+              <ShoppingCart color="#EDF6FF" size={24} />
+              <Badge
+                value={String(cart.length)}
+                status="error"
+                containerStyle={{position: 'absolute', top: -10, right: -12}}
+              />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View></View>
+        )
       }
-      centerComponent={{text: 'Header', style: styles.heading}}
+      centerComponent={
+        isSearching && !isCartScreen ? (
+          <TextInput
+            style={{
+              borderWidth: 1,
+              borderRadius: 3,
+              alignSelf: 'stretch',
+              fontSize: 14,
+              paddingVertical: 0,
+              paddingHorizontal: 5,
+              borderColor: 'white',
+              color: 'white',
+            }}
+            onChangeText={onChangeInput}
+            value={searchKeyWord}
+          />
+        ) : (
+          <Text style={styles.heading}>
+            {isFilteringByCategory ? filter : 'Products'}
+          </Text>
+        )
+      }
+      backgroundColor={'#FF5757'}
+      barStyle="default"
     />
   );
 };
@@ -39,15 +117,16 @@ const styles = StyleSheet.create({
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#397af8',
+    backgroundColor: '#39395f',
     marginBottom: 20,
     width: '100%',
     paddingVertical: 15,
   },
   heading: {
-    color: 'black',
-    fontSize: 22,
-    fontWeight: 'bold',
+    color: '#EDF6FF',
+    fontSize: 20,
+    fontWeight: '600',
+    letterSpacing: 3,
   },
   headerRight: {
     display: 'flex',
